@@ -21,8 +21,10 @@ for g in game.matches:
   kicktipp += score
   if g.active():
     print g.pretty()+" guessing... {} Kicktipp.de points:{}".format(guess,score)
-  g.update(game.w[1:])
-  post.toBotliga(g.match_id,guess[0],guess[1])
+  if not g.active():
+		print "\nguessing!"
+		print g.pretty()+" guessing... {} Kicktipp.de points:{}".format(guess,score)
+		post.toBotliga(g.match_id,guess[0],guess[1])
 
 print kicktipp
 

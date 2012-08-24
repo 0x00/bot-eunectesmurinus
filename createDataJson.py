@@ -49,8 +49,9 @@ def buildgamedb(jsonlink,game):
 
 
 
-buildgamedb(botliga.Reader.s2010,game)
+#buildgamedb(botliga.Reader.s2010,game)
 buildgamedb(botliga.Reader.s2011,game)
+buildgamedb(botliga.Reader.s2012,game)
 
 game.save()
 

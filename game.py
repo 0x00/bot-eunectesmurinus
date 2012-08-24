@@ -35,9 +35,40 @@ class Team:
 
                 return float(1+goalHome)/float(failHome+1)
 
+
+        def medianHomeFail(self):
+                victories = []
+                played = sorted(self.played,key=lambda g: g.goal1)
+                for m in played:
+                        if m.active():
+                                if m.team1==self and m.goal1<m.goal2:
+                                        victories.append((m.goal1,m.goal2))
+
+                if len(victories)==0: return (2,1)
+                l = len(victories)/2                
+                return victories[l]
+
+
+        def medianAwayFail(self):
+                victories = []
+                played = sorted(self.played,key=lambda g: g.goal2)
+
+                for m in played:
+                        if m.active():
+                                if m.team2==self and m.goal1>m.goal2:
+                                        victories.append((m.goal1,m.goal2))
+                if len(victories)==0: return (0,1)
+                l = len(victories)/2
+                return victories[l]
+
+
+
+
         def medianHomeVictory(self):
                 victories = []
-                for m in self.played:
+                played = sorted(self.played,key=lambda g: g.goal1)
+
+                for m in played:
                         if m.active():
                                 if m.team1==self and m.goal1>m.goal2:
                                         victories.append((m.goal1,m.goal2))
@@ -49,7 +80,9 @@ class Team:
 
         def medianAwayVictory(self):
                 victories = []
-                for m in self.played:
+                played = sorted(self.played,key=lambda g: g.goal2)
+
+                for m in played:
                         if m.active():
                                 if m.team2==self and m.goal1<m.goal2:
                                         victories.append((m.goal1,m.goal2))
@@ -109,29 +142,10 @@ class Match:
 
 
         def guess(self):
+                if self.team1.score()<self.team2.score():
+	                return (self.team1.medianHomeFail()[0],self.team2.medianAwayVictory()[1])
 
-                so1 = 1
-                so2 = 1
-
-
-                s1 = self.team1.s
-                s2 = self.team2.s
-
-                if s1==0 or s2==0:
-                        return (2,1)
-
-                if s1>s2:
-                        so1 = 2
-                        so2 = 1
-                        #return self.team1.medianHomeVictory()
-
-                if s2>s1:
-                        so2 = 1
-                        so1 = 0
-                        #return self.team2.medianAwayVictory()
-
-
-                return (so1,so2)
+                return (self.team1.medianHomeVictory()[0],self.team2.medianAwayFail()[1])
 
         def update(self,w):
 

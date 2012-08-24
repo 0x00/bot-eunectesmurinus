@@ -16,6 +16,7 @@ class Reader:
 	
 	s2010 = "http://botliga.de/api/matches/2010"
 	s2011 = "http://botliga.de/api/matches/2011"
+	s2012 = "http://botliga.de/api/matches/2012"
 
 	def read(self,url):
 		import urllib
